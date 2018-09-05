@@ -26,35 +26,35 @@ describe('Player', function(){
       assert.deepStrictEqual(actual, expected);
     })
 
-    it('should be able to play card choosing agility', function(){
+    xit('should be able to play card choosing agility', function(){
       player.hand.push(card);
       const actual = player.play('agility');
       const expected = 10;
       assert.strictEqual(actual, expected);
     })
 
-    it('should be able to play card choosing intelligence', function(){
+    xit('should be able to play card choosing intelligence', function(){
       player.hand.push(card);
       const actual = player.play('intelligence');
       const expected = 2;
       assert.strictEqual(actual, expected);
     })
 
-    it('should be able to play card choosing strength', function(){
+    xit('should be able to play card choosing strength', function(){
       player.hand.push(card);
       const actual = player.play('strength');
       const expected = 5;
       assert.strictEqual(actual, expected);
     })
 
-    it('chosen wrong attribute for card, wrong choice message, no card played', function(){
+    xit('chosen wrong attribute for card, wrong choice message, no card played', function(){
       player.hand.push(card);
       const actual = player.play('bonanza');
       const expected = 'This is not an attribute!';
       assert.strictEqual(actual, expected);
     })
 
-    it('chosen wrong attribute for card, no card played, hand is the same', function(){
+    xit('chosen wrong attribute for card, no card played, hand is the same', function(){
       player.hand.push(card);
       player.play('bonanza');
       const actual = player.hand.length;

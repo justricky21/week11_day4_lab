@@ -1,52 +1,63 @@
 const Card = require('./card.js');
 
-const Game = function(){
+const Game = function(deck){
   this.players = [];
-  this.deck = listOfCards;
+  this.deck = deck;
 }
-//method deallAllCards assumes that there's an even number of cards
-let listOfCards = [new Card('Magic Mike', 2, 5, 10),
-                  new Card('Superman', 6, 9, 7),
-                  new Card('Scarlet Witch', 7, 10, 5),
-                  new Card('Black Widow', 8, 6, 9),
-                  new Card('Wonder Woman', 8, 7, 5),
-                  new Card('The Flash', 7, 4, 10),
-                  new Card('Batman', 10, 5, 6),
-                  new Card('Magic Mike', 2, 5, 10)]
 
 Game.prototype.addPlayer = function(player){
   this.players.push(player);
 }
 
 Game.prototype.dealCard = function(player){
-    player.hand.push(this.deck.pop());
+    player.hand.push(this.deck.shift());
 }
 
 Game.prototype.turn = function(attribute){
   let player1 = this.players[0];
   let player2 = this.players[1];
-  this.dealCard(player1);
-  this.dealCard(player2);
-  let firstPlayerScore = player1.play(attribute);
-  let secondPlayerScore = player2.play(attribute);
-  if ( firstPlayerScore > secondPlayerScore ){
+  let firstPlayerCard = player1.play();
+  console.log(firstPlayerCard.name);
+  console.log(firstPlayerCard.attribute);
+  let secondPlayerCard = player2.play();
+  console.log(secondPlayerCard.name);
+  console.log(secondPlayerCard.attribute);
+  if ( firstPlayerCard.attribute > secondPlayerCard.attribute ){
+    player1.hand.push(firstPlayerCard);
+    player1.hand.push(secondPlayerCard);
     return `${player1.name} wins!`;
-  } else if ( firstPlayerScore < secondPlayerScore ) {
+  } else if ( firstPlayerCard.attribute < secondPlayerCard.attribute ) {
+    player2.hand.push(firstPlayerCard);
+    player2.hand.push(secondPlayerCard);
     return `${player2.name} wins!`;
-  } else if ( firstPlayerScore === secondPlayerScore ){
+  } else if ( firstPlayerCard.attribute === secondPlayerCard.attribute ){
     return 'It\'s a tie, Jerry!';
   } else {
     return 'Something went wrong, Jerry!';
   }
 }
 
-
+//assumes that there's an even number of cards
 Game.prototype.dealAllCards = function(){
-  //assumes that there's an even number of cards
-  while (this.deck.length > 0){
+  while(this.deck.length > 0){
     this.dealCard(this.players[0]);
     this.dealCard(this.players[1]);
   }
+}
+
+Game.prototype.playGame = function(attribute){
+  this.dealAllCards();
+  while(this.players[0].hand.length > 0 || this.players[1].hand.length > 0){
+    this.turn(attribute);
+  }
+  if(this.players[0].hand.length === 0){
+    return console.log(`${this.players[1].name} is the winner!`);
+  } else if(this.players[1].hand.length === 1) {
+    return console.log(`${this.players[0].name} is the winner!`);
+  } else {
+    return console.log('Something went wrong Jerry!');
+  }
+
 }
 
 module.exports = Game
